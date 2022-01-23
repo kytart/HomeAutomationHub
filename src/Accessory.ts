@@ -1,6 +1,6 @@
 import * as hap from 'hap-nodejs';
-import './IService';
-import { IService } from './IService';
+import './service/IService';
+import { IService } from './service/IService';
 
 export class Accessory {
 

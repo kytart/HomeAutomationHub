@@ -1,5 +1,5 @@
 import * as hap from 'hap-nodejs';
-import * as Debug from 'debug';
+import Debug from 'debug';
 import { IService } from './IService';
 
 const debug = Debug('HomeAutomationHub:Thermostat');

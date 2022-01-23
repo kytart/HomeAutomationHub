@@ -7,7 +7,9 @@
 		"removeComments": true,
 		"preserveConstEnums": true,
 		"sourceMap": true,
-		"jsx": "react"
+		"jsx": "react",
+		"resolveJsonModule": true,
+		"esModuleInterop": true
 	},
 	"include": [
 		"src/**/*"

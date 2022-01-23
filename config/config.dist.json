@@ -1,0 +1,17 @@
+{
+	"mqtt": {
+		"uri": "mqtt://localhost"
+	},
+	"rooms": {
+		"livingRoom": {
+			"temperature": {
+				"mqttTopic": "living_room.temperature"
+			}
+		},
+		"bedroom": {
+			"temperature": {
+				"mqttTopic": "bedroom.temperature"
+			}
+		}
+	}
+}
