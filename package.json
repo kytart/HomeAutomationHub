@@ -11,5 +11,8 @@
     "iot"
   ],
   "author": "Michal Artazov <michal@artazov.cz>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "hap-nodejs": "0.10.0"
+  }
 }
