@@ -1,12 +1,18 @@
+import { EventEmitter } from 'events';
 import * as hap from 'hap-nodejs';
 import Debug from 'debug';
-import { IService } from './IService';
+import { IThermostatService } from './IThermostatService';
 
-const debug = Debug('HomeAutomationHub:Thermostat');
+const debug = Debug('HomeAutomationHub:ThermostatService');
 
-export class Thermostat implements IService {
+enum Events {
+	TargetTemperatureChange = 'target_temp_change',
+}
+
+export class ThermostatService implements IThermostatService {
 
 	private service: hap.Service;
+	private emitter: EventEmitter = new EventEmitter();
 
 	private currentTemp = 10;
 	private targetTemp = 10;
@@ -36,6 +42,10 @@ export class Thermostat implements IService {
 		this.targetTemp = temp;
 	}
 
+	public onTargetTempChange(callback: () => void) {
+		this.emitter.on(Events.TargetTemperatureChange, callback);
+	}
+
 	private init() {
 		const currentTempCharacteristic = this.service.getCharacteristic(hap.Characteristic.CurrentTemperature);
 		const targetTempCharacteristic = this.service.getCharacteristic(hap.Characteristic.TargetTemperature);
@@ -58,6 +68,7 @@ export class Thermostat implements IService {
 			debug('SET target temperature to: ' + value);
 			this.targetTemp = value;
 			callback();
+			this.emitter.emit(Events.TargetTemperatureChange);
 		});
 	}
 }

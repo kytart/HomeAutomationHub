@@ -1,13 +1,15 @@
 import * as mqtt from 'async-mqtt';
 import { Accessory } from './Accessory';
-import { Thermostat } from './service/ThermostatService';
+import { ThermostatService } from './service/ThermostatService';
 import { MqttTemperatureSource } from './source/MqttTemperatureSource';
 import config from '../config/config.json'
+import { FakeHeater } from './device/FakeHeater';
+import { Thermostat } from './Thermostat';
 
 const accessory = new Accessory('kytart.home', 'MC Home');
-const livingRoomThermostat = new Thermostat('Living Room Thermostat');
+const livingRoomThermostatService = new ThermostatService('Living Room Thermostat');
 
-accessory.addService(livingRoomThermostat);
+accessory.addService(livingRoomThermostatService);
 accessory.publish();
 
 console.info("Accessory setup finished!");
@@ -23,7 +25,7 @@ console.info("Accessory setup finished!");
 	await mqttClient.subscribe(bedroomMqttTopic);
 
 	const livingRoomTempSrc = new MqttTemperatureSource(mqttClient, livingRoomMqttTopic);
-	livingRoomTempSrc.onTemperature((temp: number) => {
-		livingRoomThermostat.setCurrentTemp(temp);
-	});
+	const livingRoomHeater = new FakeHeater();
+	const livingRoomThermostat = new Thermostat('LivingRoom', livingRoomThermostatService, livingRoomTempSrc, livingRoomHeater);
+	console.log('living room thermostat initialized');
 })();
