@@ -5,6 +5,7 @@ import { MqttTemperatureSource } from './source/MqttTemperatureSource';
 import config from '../config/config.json'
 import { FakeHeater } from './device/FakeHeater';
 import { Thermostat } from './Thermostat';
+import { createTPLinkSmartPlugHeater } from './device/deviceFactory';
 
 const accessory = new Accessory('kytart.home', 'MC Home');
 const livingRoomThermostatService = new ThermostatService('Living Room Thermostat');
@@ -25,7 +26,7 @@ console.info("Accessory setup finished!");
 	await mqttClient.subscribe(bedroomMqttTopic);
 
 	const livingRoomTempSrc = new MqttTemperatureSource(mqttClient, livingRoomMqttTopic);
-	const livingRoomHeater = new FakeHeater();
+	const livingRoomHeater = createTPLinkSmartPlugHeater(config.rooms.livingRoom.tpLinksmartPlug.ip);
 	const livingRoomThermostat = new Thermostat('LivingRoom', livingRoomThermostatService, livingRoomTempSrc, livingRoomHeater);
 	console.log('living room thermostat initialized');
 })();
