@@ -17,16 +17,24 @@ export class Thermostat {
 		this.init();
 	}
 
-	private refreshState() {
+	private async refreshState() {
 		const currentTemp = this.service.getCurrentTemp();
 		const targetTemp = this.service.getTargetTemp();
 
 		if (currentTemp < targetTemp) {
 			this.debug(`current temperature (${currentTemp}) lower than target temperature (${targetTemp}), turning heater ON`);
-			this.heater.setOn();
+			try {
+				await this.heater.setOn();
+			} catch (error) {
+				this.debug('failed setting heater on', error);
+			}
 		} else {
 			this.debug(`current temperature (${currentTemp}) lower than target temperature (${targetTemp}), turning heater OFF`);
-			this.heater.setOff();
+			try {
+				await this.heater.setOff();
+			} catch (error) {
+				this.debug('failed setting heater off', error);
+			}
 		}
 	}
 
