@@ -18,7 +18,7 @@ export class ThermostatService implements IThermostatService {
 	private currentTemp = 10;
 	private targetTemp = 10;
 
-	constructor(private name: string) {
+	constructor(name: string) {
 		this.service = new hap.Service.Thermostat(name);
 		this.init();
 	}

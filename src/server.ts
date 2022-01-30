@@ -1,32 +1,36 @@
 import * as mqtt from 'async-mqtt';
-import { Accessory } from './Accessory';
-import { ThermostatService } from './service/ThermostatService';
-import { MqttTemperatureSource } from './source/MqttTemperatureSource';
-import config from '../config/config.json'
-import { FakeHeater } from './device/FakeHeater';
-import { Thermostat } from './Thermostat';
-import { createTPLinkSmartPlugHeater } from './device/deviceFactory';
+import config, { IRoom as IRoomConfig } from '../config/config'
+import { createThermostatAccessoryWithMQTTTempSensorAndTPLinkHeater } from './accessory/accessoryFactory';
+import { Bridge } from './Bridge';
 
-const accessory = new Accessory('kytart.home', 'MC Home');
-const livingRoomThermostatService = new ThermostatService('Living Room Thermostat');
+async function createRoom(
+	config: IRoomConfig,
+	mqttClient: mqtt.AsyncClient,
+) {
+	const thermostat = await createThermostatAccessoryWithMQTTTempSensorAndTPLinkHeater(
+		mqttClient,
+		config.thermostat.name,
+		config.thermostat.temperature.mqttTopic,
+		config.thermostat.tpLinkSmartPlug.ip,
+	);
 
-accessory.addService(livingRoomThermostatService);
-accessory.publish();
-
-console.info("Accessory setup finished!");
+	return { thermostat };
+}
 
 (async () => {
 	const mqttClient = await mqtt.connectAsync('mqtt://rpi_home')
 	console.info('MQTT client connected');
 
-	const livingRoomMqttTopic = config.rooms.livingRoom.temperature.mqttTopic;
-	const bedroomMqttTopic = config.rooms.bedroom.temperature.mqttTopic;
+	const bridge = new Bridge("MC Home Bridge");
 
-	await mqttClient.subscribe(livingRoomMqttTopic);
-	await mqttClient.subscribe(bedroomMqttTopic);
+	const livingRoom = await createRoom(config.rooms.livingRoom, mqttClient);
+	bridge.addAccessory(livingRoom.thermostat.accessory);
+	console.log('living room initialized');
 
-	const livingRoomTempSrc = new MqttTemperatureSource(mqttClient, livingRoomMqttTopic);
-	const livingRoomHeater = createTPLinkSmartPlugHeater(config.rooms.livingRoom.tpLinksmartPlug.ip);
-	const livingRoomThermostat = new Thermostat('LivingRoom', livingRoomThermostatService, livingRoomTempSrc, livingRoomHeater);
-	console.log('living room thermostat initialized');
+	const bedroom = await createRoom(config.rooms.bedroom, mqttClient);
+	bridge.addAccessory(bedroom.thermostat.accessory);
+	console.log('bedroom initialized');
+
+	bridge.publish();
+	console.info("Bridge setup finished!");
 })();

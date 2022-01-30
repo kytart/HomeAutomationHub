@@ -21,12 +21,14 @@
     "async-mqtt": "^2.6.2",
     "debug": "^4.3.3",
     "hap-nodejs": "0.10.0",
+    "qrcode-terminal": "^0.12.0",
     "tplink-smarthome-api": "^3.3.0"
   },
   "devDependencies": {
     "@types/debug": "^4.1.7",
     "@types/jest": "^27.4.0",
     "@types/node": "^17.0.10",
+    "@types/qrcode-terminal": "^0.12.0",
     "@types/should": "^13.0.0",
     "@types/ws": "^8.2.2",
     "jest": "^27.4.7",
