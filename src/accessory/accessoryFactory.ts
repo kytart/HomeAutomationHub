@@ -14,7 +14,7 @@ export async function createThermostatAccessoryWithMQTTTempSensorAndTPLinkHeater
 ) {
 	await mqttClient.subscribe(tempMqttTopic);
 
-	const thermostatService = new ThermostatService(`${name} Thermostat`);
+	const thermostatService = new ThermostatService(name);
 	const temperatureSrc = new MqttTemperatureSource(mqttClient, tempMqttTopic);
 	const heater = createTPLinkSmartPlugHeater(tpLinkSmartPlugIp);
 	const thermostat = new Thermostat(name, thermostatService, temperatureSrc, heater);
