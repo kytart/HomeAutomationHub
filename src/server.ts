@@ -18,7 +18,7 @@ async function createRoom(
 }
 
 (async () => {
-	const mqttClient = await mqtt.connectAsync('mqtt://rpi_home')
+	const mqttClient = await mqtt.connectAsync(config.mqtt.uri)
 	console.info('MQTT client connected');
 
 	const bridge = new Bridge("MC Home Bridge");
