@@ -33,4 +33,10 @@ async function createRoom(
 
 	bridge.publish();
 	console.info("Bridge setup finished!");
+
+	process.removeAllListeners('uncaughtException');
+	process.on('uncaughtException', (error: any) => console.error(error && error.stack ? error.stack : error));
+	process.on('unhandledRejection', (error: Error) => {
+		throw error;
+	});
 })();
