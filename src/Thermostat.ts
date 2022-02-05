@@ -45,5 +45,7 @@ export class Thermostat {
 		});
 
 		this.service.onTargetTempChange(() => this.refreshState());
+
+		setInterval(() => this.refreshState(), 5 * 60e3); // every 5 mins
 	}
 }
