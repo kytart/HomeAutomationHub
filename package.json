@@ -21,6 +21,7 @@
     "async-mqtt": "^2.6.2",
     "debug": "^4.3.3",
     "hap-nodejs": "0.10.0",
+    "influx": "^5.9.2",
     "qrcode-terminal": "^0.12.0",
     "tplink-smarthome-api": "^3.3.0"
   },

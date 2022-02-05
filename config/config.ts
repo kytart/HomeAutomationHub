@@ -1,11 +1,14 @@
 import config from './config.json';
 
 export interface IRoom {
+	temperature: {
+		mqttTopic: string;
+		influxdbTags: {
+			[key: string]: string;
+		};
+	};
 	thermostat: {
 		name: string;
-		temperature: {
-			mqttTopic: string;
-		};
 		tpLinkSmartPlug: {
 			ip: string;
 		};
@@ -15,6 +18,10 @@ export interface IRoom {
 export interface IConfig {
 	mqtt: {
 		uri: string;
+	};
+	influxdb: {
+		host: string;
+		database: string;
 	};
 	rooms: {
 		[key: string]: IRoom;

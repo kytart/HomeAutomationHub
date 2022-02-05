@@ -2,24 +2,34 @@
 	"mqtt": {
 		"uri": "mqtt://localhost"
 	},
+	"influxdb": {
+		"host": "localhost",
+		"database": "home"
+	},
 	"rooms": {
 		"livingRoom": {
+			"temperature": {
+				"mqttTopic": "living_room.temperature",
+				"influxdbTags": {
+					"room": "living-room"
+				}
+			},
 			"thermostat": {
 				"name": "Living Room Thermostat",
-				"temperature": {
-					"mqttTopic": "living_room.temperature"
-				},
 				"tpLinkSmartPlug": {
 					"ip": "192.168.1.10"
 				}
 			}
 		},
 		"bedroom": {
+			"temperature": {
+				"mqttTopic": "bedroom.temperature",
+				"influxdbTags": {
+					"room": "bedroom"
+				}
+			},
 			"thermostat": {
 				"name": "Bedroom Thermostat",
-				"temperature": {
-					"mqttTopic": "bedroom.temperature"
-				},
 				"tpLinkSmartPlug": {
 					"ip": "192.168.1.11"
 				}
