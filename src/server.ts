@@ -1,7 +1,10 @@
+import * as hap from 'hap-nodejs';
 import * as mqtt from 'async-mqtt';
 import config, { IRoom as IRoomConfig } from '../config/config'
 import { createThermostatAccessoryWithMQTTTempSensorAndTPLinkHeater } from './accessory/accessoryFactory';
 import { Bridge } from './Bridge';
+
+hap.HAPStorage.setCustomStoragePath(config.homekit.persistPath);
 
 async function createRoom(
 	config: IRoomConfig,

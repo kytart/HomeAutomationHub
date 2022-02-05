@@ -25,5 +25,8 @@
 				}
 			}
 		}
+	},
+	"homekit": {
+		"persistPath": "/path/where/to/store/homekit/data"
 	}
 }

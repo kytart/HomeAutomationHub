@@ -19,6 +19,9 @@ export interface IConfig {
 	rooms: {
 		[key: string]: IRoom;
 	};
+	homekit: {
+		persistPath: string;
+	},
 }
 
 export default config as IConfig;
