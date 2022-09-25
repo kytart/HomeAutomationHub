@@ -6,37 +6,67 @@
 		"host": "localhost",
 		"database": "home"
 	},
-	"rooms": {
-		"livingRoom": {
-			"temperature": {
-				"mqttTopic": "living_room.temperature",
-				"influxdbTags": {
-					"room": "living-room"
-				}
-			},
-			"thermostat": {
+	"homekit": {
+		"persistPath": "/path/where/to/store/homekit/data"
+	},
+	"devices": {
+		"living-room-thermostat": {
+			"type": "thermostat",
+			"config": {
+				"type": "apple-homekit",
 				"name": "Living Room Thermostat",
-				"tpLinkSmartPlug": {
-					"ip": "192.168.1.10"
+				"temperatureSensor": {
+					"type": "mqtt",
+					"topic": "living_room.temperature",
+					"format": {
+						"format": "json",
+						"path": ""
+					},
+					"persistance": {
+						"type": "influxdb",
+						"measurement": "temperature",
+						"tags": {
+							"room": "living-room"
+						}
+					}
+				},
+				"heater": {
+					"type": "on-off",
+					"config": {
+						"type": "tplink-smart-plug",
+						"ip": "192.168.1.10"
+					}
 				}
 			}
 		},
-		"bedroom": {
-			"temperature": {
-				"mqttTopic": "bedroom.temperature",
-				"influxdbTags": {
-					"room": "bedroom"
-				}
-			},
-			"thermostat": {
+		"bedroom-thermostat": {
+			"type": "thermostat",
+			"config": {
+				"type": "apple-homekit",
 				"name": "Bedroom Thermostat",
-				"tpLinkSmartPlug": {
-					"ip": "192.168.1.11"
+				"temperatureSensor": {
+					"type": "mqtt",
+					"topic": "bedroom.temperature",
+					"format": {
+						"format": "json",
+						"path": ""
+					},
+					"persistance": {
+						"type": "influxdb",
+						"measurement": "temperature",
+						"tags": {
+							"room": "bedroom"
+						}
+					}
+				},
+				"heater": {
+					"type": "on-off",
+					"config": {
+						"type": "tplink-smart-plug",
+						"ip": "192.168.1.11"
+					}
 				}
 			}
 		}
-	},
-	"homekit": {
-		"persistPath": "/path/where/to/store/homekit/data"
 	}
 }

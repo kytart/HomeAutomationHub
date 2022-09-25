@@ -30,7 +30,6 @@ export class Characteristic<T extends hap.CharacteristicValue> {
 
 	public getValue() {
 		return this.currentValue;
-		this.characteristic.getValue
 	}
 
 	public setValue(value: T) {
@@ -38,7 +37,7 @@ export class Characteristic<T extends hap.CharacteristicValue> {
 		this.characteristic.setValue(value);
 	}
 
-	public onChange(callback: () => void) {
+	public onChange(callback: (value: T) => void) {
 		this.emitter.on(Events.Change, callback);
 	}
 
@@ -52,7 +51,7 @@ export class Characteristic<T extends hap.CharacteristicValue> {
 			this.debug('SET', value);
 			this.currentValue = <T>value;
 			callback();
-			this.emitter.emit(Events.Change);
+			this.emitter.emit(Events.Change, this.currentValue);
 		});
 	}
 

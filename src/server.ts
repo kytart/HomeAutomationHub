@@ -1,49 +1,42 @@
 import * as hap from 'hap-nodejs';
 import * as mqtt from 'async-mqtt';
 import { InfluxDB } from 'influx';
-import config, { IRoom as IRoomConfig } from '../config/config'
-import { createThermostatAccessoryWithMQTTTempSensorAndTPLinkHeater } from './accessory/accessoryFactory';
+import Debug from 'debug';
+import config from './config/config'
 import { Bridge } from './Bridge';
-import { InfluxDBTemperatureStorage } from './storage/InfluxDBTemperatureStorage';
-import { TemperaturePersister } from './storage/TemperaturePersister';
+import { DeviceFactory } from './device/DeviceFactory';
+
+const debug = Debug('HomeAutomationHub:server');
 
 hap.HAPStorage.setCustomStoragePath(config.homekit.persistPath);
-
-async function createRoom(
-	config: IRoomConfig,
-	mqttClient: mqtt.AsyncClient,
-	influxdb: InfluxDB,
-) {
-	const thermostat = await createThermostatAccessoryWithMQTTTempSensorAndTPLinkHeater(mqttClient, config);
-
-	const temperatureStorage = new InfluxDBTemperatureStorage(influxdb, config.temperature.influxdbTags);
-	const temperaturePersister = new TemperaturePersister(thermostat.temperatureSrc, temperatureStorage);
-	temperaturePersister.start();
-
-	return {
-		thermostat,
-		temperaturePersister,
-	};
-}
 
 (async () => {
 	const mqttClient = await mqtt.connectAsync(config.mqtt.uri)
 	console.info('MQTT client connected');
 
-	const influxDB = new InfluxDB({
+	const influxdb = new InfluxDB({
 		host: config.influxdb.host,
 		database: config.influxdb.database,
 	});
 
 	const bridge = new Bridge("MC Home Bridge");
 
-	const livingRoom = await createRoom(config.rooms.livingRoom, mqttClient, influxDB);
-	bridge.addAccessory(livingRoom.thermostat.accessory);
-	console.log('living room initialized');
+	const deviceFactory = new DeviceFactory({
+		mqttClient,
+		influxdb,
+		appleHomekitBridge: bridge,
+	});
 
-	const bedroom = await createRoom(config.rooms.bedroom, mqttClient, influxDB);
-	bridge.addAccessory(bedroom.thermostat.accessory);
-	console.log('bedroom initialized');
+	for (const deviceName of Object.keys(config.devices)) {
+		const deviceConfig = config.devices[deviceName];
+		debug('create device', {
+			name: deviceName,
+			config: deviceConfig,
+		});
+
+		// TODO do something with the device, right now it just starts working on its own and that's it
+		const _device = deviceFactory.createDevice(deviceConfig);
+	}
 
 	bridge.publish();
 	console.info("Bridge setup finished!");

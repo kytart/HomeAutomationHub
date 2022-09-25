@@ -1,12 +1,17 @@
-import { ISmartPlug } from "../device/ISmartPlug";
 import * as tplink from 'tplink-smarthome-api';
+import { DeviceType } from '../device/IDevice';
+import { IOnOffDevice } from "./IOnOffDevice";
 
-export class TPLinkSmartPlug implements ISmartPlug {
+export class TPLinkSmartPlug implements IOnOffDevice {
 
 	private client: tplink.Client;
 
 	constructor(private ip: string) {
 		this.client = new tplink.Client();
+	}
+
+	public getType(): DeviceType {
+		return DeviceType.OnOffDevice;
 	}
 
 	public async setOn(): Promise<void> {
