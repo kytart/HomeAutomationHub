@@ -29,6 +29,10 @@ export class AppleHomekitThermostat implements IThermostat {
 		return this.service.getTargetTemp();
 	}
 
+	public setTargetTemp(temp: number): void {
+		this.service.setTargetTemp(temp);
+	}
+
 	public onCurrentTempChange(callback: (temp: number) => void): void {
 		return this.tempSensor.onData(callback);
 	}

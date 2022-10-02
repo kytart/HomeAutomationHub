@@ -49,6 +49,10 @@ export class ThermostatService implements IThermostatService {
 		return this.targetTemp.getValue();
 	}
 
+	public setTargetTemp(temp: number): void {
+		this.targetTemp.setValue(temp);
+	}
+
 	public onTargetTempChange(callback: (temp: number) => void) {
 		this.targetTemp.onChange(callback);
 	}
