@@ -1,6 +1,6 @@
 {
 	"mqtt": {
-		"uri": "mqtt://localhost"
+		"uri": "tcp://localhost"
 	},
 	"influxdb": {
 		"host": "localhost",
@@ -17,10 +17,10 @@
 				"name": "Living Room Thermostat",
 				"temperatureSensor": {
 					"type": "mqtt",
-					"topic": "living_room.temperature",
+					"topic": "zigbee2mqtt/living-room/temperature",
 					"format": {
 						"format": "json",
-						"path": ""
+						"path": "temperature"
 					},
 					"persistance": {
 						"type": "influxdb",
@@ -30,11 +30,56 @@
 						}
 					}
 				},
+				"windowSensor": {
+					"type": "mqtt",
+					"topic": "zigbee2mqtt/living-room/window",
+					"format": {
+						"format": "json",
+						"path": "contact"
+					}
+				},
 				"heater": {
 					"type": "on-off",
 					"config": {
 						"type": "tplink-smart-plug",
-						"ip": "192.168.1.10"
+						"ip": "192.168.1.11"
+					}
+				}
+			}
+		},
+		"living-room-humidity-sensor": {
+			"type": "humidity-sensor",
+			"config": {
+				"type": "apple-homekit",
+				"name": "Living Room Humidity Sensor",
+				"sensor": {
+					"type": "mqtt",
+					"topic": "zigbee2mqtt/living-room/temperature",
+					"format": {
+						"format": "json",
+						"path": "humidity"
+					},
+					"persistance": {
+						"type": "influxdb",
+						"measurement": "humidity",
+						"tags": {
+							"room": "living-room"
+						}
+					}
+				}
+			}
+		},
+		"living-room-window-sensor": {
+			"type": "window-sensor",
+			"config": {
+				"type": "apple-homekit",
+				"name": "Living Room Window",
+				"sensor": {
+					"type": "mqtt",
+					"topic": "zigbee2mqtt/living-room/window",
+					"format": {
+						"format": "json",
+						"path": "contact"
 					}
 				}
 			}
@@ -46,10 +91,10 @@
 				"name": "Bedroom Thermostat",
 				"temperatureSensor": {
 					"type": "mqtt",
-					"topic": "bedroom.temperature",
+					"topic": "zigbee2mqtt/bedroom/temperature",
 					"format": {
 						"format": "json",
-						"path": ""
+						"path": "temperature"
 					},
 					"persistance": {
 						"type": "influxdb",
@@ -63,7 +108,80 @@
 					"type": "on-off",
 					"config": {
 						"type": "tplink-smart-plug",
-						"ip": "192.168.1.11"
+						"ip": "192.168.1.10"
+					}
+				}
+			}
+		},
+		"bedroom-humidity-sensor": {
+			"type": "humidity-sensor",
+			"config": {
+				"type": "apple-homekit",
+				"name": "Bedroom Humidity Sensor",
+				"sensor": {
+					"type": "mqtt",
+					"topic": "zigbee2mqtt/bedroom/temperature",
+					"format": {
+						"format": "json",
+						"path": "humidity"
+					},
+					"persistance": {
+						"type": "influxdb",
+						"measurement": "humidity",
+						"tags": {
+							"room": "bedroom"
+						}
+					}
+				}
+			}
+		},
+		"bathroom-thermostat": {
+			"type": "thermostat",
+			"config": {
+				"type": "apple-homekit",
+				"name": "Bathroom Thermostat",
+				"temperatureSensor": {
+					"type": "mqtt",
+					"topic": "zigbee2mqtt/bathroom/temperature",
+					"format": {
+						"format": "json",
+						"path": "temperature"
+					},
+					"persistance": {
+						"type": "influxdb",
+						"measurement": "temperature",
+						"tags": {
+							"room": "bathroom"
+						}
+					}
+				},
+				"heater": {
+					"type": "on-off",
+					"config": {
+						"type": "tplink-smart-plug",
+						"ip": "192.168.1.12"
+					}
+				}
+			}
+		},
+		"bathroom-humidity-sensor": {
+			"type": "humidity-sensor",
+			"config": {
+				"type": "apple-homekit",
+				"name": "Bathroom Humidity Sensor",
+				"sensor": {
+					"type": "mqtt",
+					"topic": "zigbee2mqtt/bathroom/temperature",
+					"format": {
+						"format": "json",
+						"path": "humidity"
+					},
+					"persistance": {
+						"type": "influxdb",
+						"measurement": "humidity",
+						"tags": {
+							"room": "bathroom"
+						}
 					}
 				}
 			}
