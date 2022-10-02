@@ -11,11 +11,15 @@ export class PersistentSensor implements ISensor {
 		this.init();
 	}
 
-	getType(): DeviceType {
+	public getType(): DeviceType {
 		return DeviceType.Sensor;
 	}
 
-	onData(callback: (data: number) => void): void {
+	public getCurrent(): number {
+		return this.sensor.getCurrent();
+	}
+
+	public onData(callback: (data: number) => void): void {
 		this.sensor.onData(callback);
 	}
 

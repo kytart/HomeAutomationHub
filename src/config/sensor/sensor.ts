@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { DeviceType } from '../deviceType';
 import { MqttSensorDataFormatSchema } from './mqttSensorDataFormat';
 import { PersistanceSchema } from './persistance';
 
@@ -25,9 +24,3 @@ export type Sensor = z.infer<typeof SensorSchema>;
 export function isMqttSensor(sensor: Sensor): sensor is MqttSensor {
 	return sensor.type === SensorType.Mqtt;
 }
-
-export const SensorDeviceSchema = z.strictObject({
-	type: z.literal(DeviceType.Sensor),
-	config: SensorSchema,
-});
-export type SensorDevice = z.infer<typeof SensorDeviceSchema>;

@@ -5,8 +5,10 @@ import {
 	OnOffDeviceSchema,
 } from './onOff';
 import {
-	SensorDevice,
-	SensorDeviceSchema,
+	HumiditySensorDevice,
+	HumiditySensorDeviceSchema,
+} from './sensor/humiditySensor';
+import {
 } from './sensor/sensor';
 import {
 	ThermostatDevice,
@@ -14,14 +16,14 @@ import {
 } from './thermostat';
 
 export const DeviceSchema = z.discriminatedUnion("type", [
-	SensorDeviceSchema,
+	HumiditySensorDeviceSchema,
 	OnOffDeviceSchema,
 	ThermostatDeviceSchema,
 ]);
 export type Device = z.infer<typeof DeviceSchema>;
 
-export function isSensorDevice(device: Device): device is SensorDevice {
-	return device.type === DeviceType.Sensor;
+export function isHumiditySensorDevice(device: Device): device is HumiditySensorDevice {
+	return device.type === DeviceType.HumiditySensor;
 }
 
 export function isOnOffDevice(device: Device): device is OnOffDevice {

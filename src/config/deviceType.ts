@@ -1,5 +1,5 @@
 export enum DeviceType {
-	Sensor = 'sensor',
+	HumiditySensor = 'humidity-sensor',
 	OnOffDevice = 'on-off',
 	Thermostat = 'thermostat',
 }

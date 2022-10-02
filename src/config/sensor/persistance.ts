@@ -2,6 +2,7 @@ import { z } from 'zod';
 
 export enum Measurement {
 	Temperature = 'temperature',
+	Humidity = 'humidity',
 }
 
 export enum PersistanceType {

@@ -12,8 +12,11 @@ enum Events {
 	DATA = 'data',
 }
 
+const DEFAULT_VALUE = 0;
+
 export class MqttSensor implements ISensor {
 
+	private value: number = DEFAULT_VALUE;
 	private emitter: EventEmitter = new EventEmitter();
 
 	constructor(
@@ -21,6 +24,10 @@ export class MqttSensor implements ISensor {
 		private config: MqttSensorConfig,
 	) {
 		this.init();
+	}
+
+	public getCurrent(): number {
+		return this.value;
 	}
 
 	public getType() {
@@ -43,6 +50,7 @@ export class MqttSensor implements ISensor {
 				try {
 					const value = this.parsePayload(payload.toString());
 					debug(`got value`, { topic, value, payload: message });
+					this.value = value;
 					this.emitter.emit(Events.DATA, value);
 				} catch (error) {
 					console.error('error while parsing MQTT payload', { topic, payload: message, error: error.message });
