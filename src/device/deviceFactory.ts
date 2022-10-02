@@ -6,7 +6,7 @@ import { SensorFactory } from '../sensor/sensorFactory';
 import { StorageFactory } from '../storage/StorageFactory';
 import { IDevice } from './IDevice';
 import { ThermostatFactory } from '../thermostat/ThermostatFactory';
-import { Bridge } from '../Bridge';
+import { Bridge } from '../homekit/Bridge';
 
 export interface DeviceFactoryProps {
 	influxdb: Influx.InfluxDB;

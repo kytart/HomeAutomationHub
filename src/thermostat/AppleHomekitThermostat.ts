@@ -1,5 +1,5 @@
 import Debug from 'debug';
-import { IThermostatService } from '../service/IThermostatService';
+import { IThermostatService } from '../homekit/service/IThermostatService';
 import { ISensor } from '../sensor/ISensor';
 import { IOnOffDevice } from '../onOffDevice/IOnOffDevice';
 import { IThermostat } from './IThermostat';

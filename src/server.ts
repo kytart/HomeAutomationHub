@@ -3,7 +3,7 @@ import * as mqtt from 'async-mqtt';
 import { InfluxDB } from 'influx';
 import Debug from 'debug';
 import config from './config/config'
-import { Bridge } from './Bridge';
+import { Bridge } from './homekit/Bridge';
 import { DeviceFactory } from './device/DeviceFactory';
 
 const debug = Debug('HomeAutomationHub:server');

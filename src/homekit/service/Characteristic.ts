@@ -1,7 +1,7 @@
 import * as hap from 'hap-nodejs';
 import Debug from 'debug';
 import { EventEmitter } from 'events';
-import { removeWhiteSpaces } from '../util/string';
+import { removeWhiteSpaces } from '../../util/string';
 
 enum Events {
 	Change = 'change',

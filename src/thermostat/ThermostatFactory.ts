@@ -1,7 +1,7 @@
 import * as hap from "hap-nodejs";
 import Debug from 'debug';
-import { Accessory } from '../accessory/Accessory';
-import { Bridge } from "../Bridge";
+import { Accessory } from '../homekit/accessory/Accessory';
+import { Bridge } from "../homekit/Bridge";
 import {
 	Thermostat as ThermostatConfig,
 	AppleHomekitThermostat as AppleHomekitThermostatConfig,
@@ -9,7 +9,7 @@ import {
 } from '../config/thermostat';
 import { OnOffDeviceFactory } from '../onOffDevice/OnOffDeviceFactory';
 import { SensorFactory } from '../sensor/sensorFactory';
-import { ThermostatService } from '../service/ThermostatService';
+import { ThermostatService } from '../homekit/service/ThermostatService';
 import { AppleHomekitThermostat } from './AppleHomekitThermostat';
 import { IThermostat } from './IThermostat';
 
