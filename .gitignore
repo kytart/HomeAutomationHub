@@ -2,3 +2,4 @@ node_modules
 dist
 persist
 config/config.json
+config/config.old.json
