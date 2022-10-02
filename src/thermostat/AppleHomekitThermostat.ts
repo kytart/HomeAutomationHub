@@ -1,5 +1,5 @@
 import Debug from 'debug';
-import { IThermostatService } from '../homekit/service/IThermostatService';
+import { IThermostatService, TargetHeatingCoolingState } from '../homekit/service/IThermostatService';
 import { ISensor } from '../sensor/ISensor';
 import { IOnOffDevice } from '../onOffDevice/IOnOffDevice';
 import { IThermostat } from './IThermostat';
@@ -45,27 +45,6 @@ export class AppleHomekitThermostat implements IThermostat {
 		throw new Error('Method not implemented.');
 	}
 
-	private async refreshState() {
-		const currentTemp = this.service.getCurrentTemp();
-		const targetTemp = this.service.getTargetTemp();
-
-		if (currentTemp < targetTemp) {
-			debug(`current temperature (${currentTemp}) lower than target temperature (${targetTemp}), turning heater ON`);
-			try {
-				await this.heater.setOn();
-			} catch (error) {
-				debug('failed setting heater on', error);
-			}
-		} else {
-			debug(`current temperature (${currentTemp}) lower than target temperature (${targetTemp}), turning heater OFF`);
-			try {
-				await this.heater.setOff();
-			} catch (error) {
-				debug('failed setting heater off', error);
-			}
-		}
-	}
-
 	private init() {
 		this.tempSensor.onData((temp: number) => {
 			this.service.setCurrentTemp(temp);
@@ -73,7 +52,53 @@ export class AppleHomekitThermostat implements IThermostat {
 		});
 
 		this.service.onTargetTempChange(() => this.refreshState());
+		this.service.onStateChange(() => this.refreshState());
 
 		setInterval(() => this.refreshState(), 5 * 60e3); // every 5 mins
+	}
+
+	private async refreshState() {
+		const state = this.service.getState();
+
+		if (state === TargetHeatingCoolingState.OFF) {
+			await this.turnOff();
+		} else {
+			// TODO do something different for states cooling/heating/auto
+			await this.syncHeaterWithTemperature();
+		}
+	}
+
+	private async turnOff() {
+		debug('thermostat is off, turning heater OFF');
+		await this.setHeaterOff();
+	}
+
+	private async syncHeaterWithTemperature() {
+		const currentTemp = this.service.getCurrentTemp();
+		const targetTemp = this.service.getTargetTemp();
+
+		if (currentTemp < targetTemp) {
+			debug(`current temperature (${currentTemp}) lower than target temperature (${targetTemp}), turning heater ON`);
+			await this.setHeaterOn();
+		} else {
+			debug(`current temperature (${currentTemp}) lower than target temperature (${targetTemp}), turning heater OFF`);
+			await this.setHeaterOff();
+		}
+	}
+
+	private async setHeaterOn() {
+		try {
+			await this.heater.setOn();
+		} catch (error) {
+			debug('failed setting heater on', error);
+		}
+	}
+
+	private async setHeaterOff() {
+		try {
+			await this.heater.setOff();
+		} catch (error) {
+			debug('failed setting heater off', error);
+		}
 	}
 }

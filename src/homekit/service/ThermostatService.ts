@@ -1,16 +1,9 @@
 import * as hap from 'hap-nodejs';
-import { IThermostatService } from './IThermostatService';
+import { IThermostatService, TargetHeatingCoolingState } from './IThermostatService';
 import { Characteristic } from './Characteristic';
 
 const DEFAULT_CURRENT_TEMP = 10;
 const DEFAULT_TARGET_TEMP = 10;
-
-enum TargetHeatingCoolingState {
-	OFF = 0,
-	HEAT = 1,
-	COOL = 2,
-	AUTO = 3,
-}
 
 export class ThermostatService implements IThermostatService {
 
@@ -55,6 +48,14 @@ export class ThermostatService implements IThermostatService {
 
 	public onTargetTempChange(callback: (temp: number) => void) {
 		this.targetTemp.onChange(callback);
+	}
+
+	public getState(): TargetHeatingCoolingState {
+		return this.targetCoolingHeatingState.getValue();
+	}
+
+	public onStateChange(callback: (state: TargetHeatingCoolingState) => void): void {
+		this.targetCoolingHeatingState.onChange(callback);
 	}
 
 	private init() {
