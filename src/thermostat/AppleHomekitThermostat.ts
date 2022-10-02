@@ -9,9 +9,12 @@ const debug = Debug('HomeAutomationHub:SoftwareThermostat');
 
 export class AppleHomekitThermostat implements IThermostat {
 
+	private windowOpen: boolean = false;
+
 	constructor(
 		private service: IThermostatService,
 		private tempSensor: ISensor<number>,
+		private windowSensor: ISensor<boolean> | undefined,
 		private heater: IOnOffDevice,
 	) {
 		this.init();
@@ -51,6 +54,13 @@ export class AppleHomekitThermostat implements IThermostat {
 			this.refreshState();
 		});
 
+		if (this.windowSensor) {
+			this.windowSensor.onData((isClosed: boolean) => {
+				this.windowOpen = !isClosed;
+				this.refreshState();
+			});
+		}
+
 		this.service.onTargetTempChange(() => this.refreshState());
 		this.service.onStateChange(() => this.refreshState());
 
@@ -60,7 +70,7 @@ export class AppleHomekitThermostat implements IThermostat {
 	private async refreshState() {
 		const state = this.service.getState();
 
-		if (state === TargetHeatingCoolingState.OFF) {
+		if (state === TargetHeatingCoolingState.OFF || this.windowOpen) {
 			await this.turnOff();
 		} else {
 			// TODO do something different for states cooling/heating/auto

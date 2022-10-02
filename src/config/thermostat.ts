@@ -11,6 +11,7 @@ export const AppleHomekitThermostatSchema = z.strictObject({
 	type: z.literal(ThermostatType.AppleHomekit),
 	name: z.string(),
 	temperatureSensor: SensorSchema,
+	windowSensor: SensorSchema.optional(),
 	// TODO change to union type once there's more types of devices
 	heater: OnOffDeviceSchema,
 });

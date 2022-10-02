@@ -12,6 +12,7 @@ import { SensorFactory } from '../sensor/sensorFactory';
 import { ThermostatService } from '../homekit/service/ThermostatService';
 import { AppleHomekitThermostat } from './AppleHomekitThermostat';
 import { IThermostat } from './IThermostat';
+import { ISensor } from "../sensor/ISensor";
 
 const debug = Debug('HomeAutomationHub:ThermostatFactory');
 
@@ -37,10 +38,15 @@ export class ThermostatFactory {
 		const tempSensor = this.sensorFactory.createSensor<number>(config.temperatureSensor, 10);
 		const heater = this.onOffDeviceFactory.createOnOffDevice(config.heater.config);
 
+		let windowSensor: ISensor<boolean> | undefined = undefined;
+		if (config.windowSensor) {
+			windowSensor = this.sensorFactory.createSensor<boolean>(config.windowSensor, false);
+		}
+
 		const accessory = new Accessory(config.name, hap.Categories.THERMOSTAT);
 		accessory.addService(service);
 		this.appleHomekitBridge.addAccessory(accessory);
 
-		return new AppleHomekitThermostat(service, tempSensor, heater);
+		return new AppleHomekitThermostat(service, tempSensor, windowSensor, heater);
 	}
 }
