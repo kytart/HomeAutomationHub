@@ -11,7 +11,7 @@ export class AppleHomekitThermostat implements IThermostat {
 
 	constructor(
 		private service: IThermostatService,
-		private tempSensor: ISensor,
+		private tempSensor: ISensor<number>,
 		private heater: IOnOffDevice,
 	) {
 		this.init();

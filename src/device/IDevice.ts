@@ -1,5 +1,6 @@
 export enum DeviceType {
 	HumiditySensor,
+	WindowSensor,
 	Sensor,
 	OnOffDevice,
 }

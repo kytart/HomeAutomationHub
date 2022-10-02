@@ -2,11 +2,11 @@ import { DeviceType } from "../device/IDevice";
 import { ISensorStorage } from "../storage/ISensorStorage";
 import { ISensor } from "./ISensor";
 
-export class PersistentSensor implements ISensor {
+export class PersistentSensor<T> implements ISensor<T> {
 
 	constructor(
-		private sensor: ISensor,
-		private storage: ISensorStorage,
+		private sensor: ISensor<T>,
+		private storage: ISensorStorage<T>,
 	) {
 		this.init();
 	}
@@ -15,15 +15,15 @@ export class PersistentSensor implements ISensor {
 		return DeviceType.Sensor;
 	}
 
-	public getCurrent(): number {
+	public getCurrent(): T {
 		return this.sensor.getCurrent();
 	}
 
-	public onData(callback: (data: number) => void): void {
+	public onData(callback: (data: T) => void): void {
 		this.sensor.onData(callback);
 	}
 
 	private init() {
-		this.sensor.onData((data: number) => this.storage.storeReading(data));
+		this.sensor.onData((data: T) => this.storage.storeReading(data));
 	}
 }

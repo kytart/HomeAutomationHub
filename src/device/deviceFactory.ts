@@ -5,14 +5,16 @@ import {
 	isHumiditySensorDevice,
 	isOnOffDevice,
 	isThermostatDevice,
+	isWindowSensorDevice,
 } from '../config/device';
 import { OnOffDeviceFactory } from '../onOffDevice/OnOffDeviceFactory';
-import { SensorFactory } from '../sensor/sensorFactory';
 import { StorageFactory } from '../storage/StorageFactory';
-import { IDevice } from './IDevice';
 import { ThermostatFactory } from '../thermostat/ThermostatFactory';
 import { Bridge } from '../homekit/Bridge';
 import { HumiditySensorFactory } from '../sensor/humiditySensor/HumiditySensorFactory';
+import { WindowSensorFactory } from '../sensor/windowSensor/WindowSensorFactory';
+import { IDevice } from './IDevice';
+import { SensorFactory } from '../sensor/sensorFactory';
 
 export interface DeviceFactoryProps {
 	influxdb: Influx.InfluxDB;
@@ -25,6 +27,7 @@ export class DeviceFactory {
 	private storageFactory: StorageFactory;
 	private sensorFactory: SensorFactory;
 	private humiditySensorFactory: HumiditySensorFactory;
+	private windowSensorFactory: WindowSensorFactory;
 	private onOffDeviceFactory: OnOffDeviceFactory;
 	private thermostatFactory: ThermostatFactory;
 
@@ -32,6 +35,7 @@ export class DeviceFactory {
 		this.storageFactory = new StorageFactory(influxdb);
 		this.sensorFactory = new SensorFactory(mqttClient, this.storageFactory);
 		this.humiditySensorFactory = new HumiditySensorFactory(appleHomekitBridge, this.sensorFactory);
+		this.windowSensorFactory = new WindowSensorFactory(appleHomekitBridge, this.sensorFactory);
 		this.onOffDeviceFactory = new OnOffDeviceFactory();
 		this.thermostatFactory = new ThermostatFactory(appleHomekitBridge, this.sensorFactory, this.onOffDeviceFactory);
 	}
@@ -39,6 +43,8 @@ export class DeviceFactory {
 	public createDevice(config: DeviceConfig): IDevice {
 		if (isHumiditySensorDevice(config)) {
 			return this.humiditySensorFactory.createHumiditySensor(config.config);
+		} else if (isWindowSensorDevice(config)) {
+			return this.windowSensorFactory.createWindowSensor(config.config);
 		} else if (isOnOffDevice(config)) {
 			return this.onOffDeviceFactory.createOnOffDevice(config.config);
 		} else if (isThermostatDevice(config)) {

@@ -9,7 +9,7 @@ export class StorageFactory {
 		private influxdb: Influx.InfluxDB,
 	) { }
 
-	public createSensorStorage(config: PersistanceConfig): ISensorStorage {
+	public createSensorStorage<T>(config: PersistanceConfig): ISensorStorage<T> {
 		if (isInfluxDBPersistance(config)) {
 			return new InfluxDBSensorStorage(this.influxdb, config.measurement, config.tags);
 		} else {

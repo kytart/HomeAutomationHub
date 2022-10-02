@@ -1,3 +1,3 @@
-export interface ISensorStorage {
-	storeReading(value: number): Promise<void>;
+export interface ISensorStorage<T> {
+	storeReading(value: T): Promise<void>;
 };

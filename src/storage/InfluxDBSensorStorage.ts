@@ -4,7 +4,7 @@ import { ISensorStorage, } from "./ISensorStorage";
 
 const debug = Debug('HomeAutomationHub:InfluxDBSensorStorage');
 
-export class InfluxDBSensorStorage implements ISensorStorage {
+export class InfluxDBSensorStorage<T> implements ISensorStorage<T> {
 
 	constructor(
 		private influxdb: Influx.InfluxDB,
@@ -14,13 +14,13 @@ export class InfluxDBSensorStorage implements ISensorStorage {
 		},
 	) { }
 
-	public async storeReading(value: number): Promise<void> {
+	public async storeReading(value: T): Promise<void> {
 		debug('store temperature ' + value);
 		const point = this.createPoint(value);
 		await this.influxdb.writePoints([point]);
 	}
 
-	private createPoint(temperature: number): Influx.IPoint {
+	private createPoint(temperature: T): Influx.IPoint {
 		return {
 			measurement: this.measurement,
 			fields: {

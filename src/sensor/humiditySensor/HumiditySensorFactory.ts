@@ -31,7 +31,7 @@ export class HumiditySensorFactory {
 
 	private createAppleHomekitHumiditySensor(config: AppleHomekitHumiditySensorConfig) {
 		const service = new HumiditySensorService(config.name);
-		const sensor = this.sensorFactory.createSensor(config.sensor);
+		const sensor = this.sensorFactory.createSensor(config.sensor, 100);
 
 		const accessory = new Accessory(config.name, hap.Categories.SENSOR);
 		accessory.addService(service);

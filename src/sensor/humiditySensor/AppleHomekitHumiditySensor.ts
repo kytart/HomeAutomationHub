@@ -3,13 +3,11 @@ import { ISensor } from '../ISensor';
 import { DeviceType } from '../../device/IDevice';
 import { IHumiditySensorService } from '../../homekit/service/IHumiditySensorService';
 
-const debug = Debug('HomeAutomationHub:AppleHomekitHumiditySensor');
-
-export class AppleHomekitHumiditySensor implements ISensor {
+export class AppleHomekitHumiditySensor implements ISensor<number> {
 
 	constructor(
 		private service: IHumiditySensorService,
-		private sensor: ISensor,
+		private sensor: ISensor<number>,
 	) {
 		this.init();
 	}

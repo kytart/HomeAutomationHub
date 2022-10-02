@@ -16,25 +16,25 @@ export class SensorFactory {
 		private storageFactory: StorageFactory,
 	) { }
 
-	public createSensor(config: SensorConfig): ISensor {
-		const baseSensor = this.createBaseSensor(config);
+	public createSensor<T>(config: SensorConfig, defaultValue: T): ISensor<T> {
+		const baseSensor = this.createBaseSensor<T>(config, defaultValue);
 		if (config.persistance) {
-			return this.createPersistedSensor(baseSensor, config.persistance);
+			return this.createPersistedSensor<T>(baseSensor, config.persistance);
 		}
 		return baseSensor;
 	}
 
-	private createBaseSensor(config: SensorConfig): ISensor {
+	private createBaseSensor<T>(config: SensorConfig, defaultValue: T): ISensor<T> {
 		if (isMqttSensor(config)) {
 			debug('create MQTT sensor', config);
-			return new MqttSensor(this.mqttClient, config);
+			return new MqttSensor<T>(this.mqttClient, config, defaultValue);
 		} else {
 			throw new Error(`invalid sensor config ${JSON.stringify(config)}`);
 		}
 	}
 
-	private createPersistedSensor(baseSensor: ISensor, config: PersistanceConfig) {
-		const storage = this.storageFactory.createSensorStorage(config);
-		return new PersistentSensor(baseSensor, storage);
+	private createPersistedSensor<T>(baseSensor: ISensor<T>, config: PersistanceConfig) {
+		const storage = this.storageFactory.createSensorStorage<T>(config);
+		return new PersistentSensor<T>(baseSensor, storage);
 	}
 }

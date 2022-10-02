@@ -34,7 +34,7 @@ export class ThermostatFactory {
 
 	private createAppleHomekitThermostat(config: AppleHomekitThermostatConfig) {
 		const service = new ThermostatService(config.name);
-		const tempSensor = this.sensorFactory.createSensor(config.temperatureSensor);
+		const tempSensor = this.sensorFactory.createSensor<number>(config.temperatureSensor, 10);
 		const heater = this.onOffDeviceFactory.createOnOffDevice(config.heater.config);
 
 		const accessory = new Accessory(config.name, hap.Categories.THERMOSTAT);
