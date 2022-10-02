@@ -7,7 +7,7 @@ import {
 } from '../../config/sensor/windowSensor';
 import { Accessory } from '../../homekit/accessory/Accessory';
 import { Bridge } from '../../homekit/Bridge';
-import { SensorFactory } from '../sensorFactory';
+import { SensorFactory } from '../SensorFactory';
 import { WindowSensorService } from "../../homekit/service/WindowSensorService";
 import { AppleHomekitWindowSensor } from "./AppleHomekitWindowSensor";
 

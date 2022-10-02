@@ -14,7 +14,7 @@ import { Bridge } from '../homekit/Bridge';
 import { HumiditySensorFactory } from '../sensor/humiditySensor/HumiditySensorFactory';
 import { WindowSensorFactory } from '../sensor/windowSensor/WindowSensorFactory';
 import { IDevice } from './IDevice';
-import { SensorFactory } from '../sensor/sensorFactory';
+import { SensorFactory } from '../sensor/SensorFactory';
 
 export interface DeviceFactoryProps {
 	influxdb: Influx.InfluxDB;

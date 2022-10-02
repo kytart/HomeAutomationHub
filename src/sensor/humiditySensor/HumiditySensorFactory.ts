@@ -8,7 +8,7 @@ import {
 import { Accessory } from '../../homekit/accessory/Accessory';
 import { Bridge } from '../../homekit/Bridge';
 import { HumiditySensorService } from '../../homekit/service/HumiditySensorService';
-import { SensorFactory } from '../sensorFactory';
+import { SensorFactory } from '../SensorFactory';
 import { AppleHomekitHumiditySensor } from "./AppleHomekitHumiditySensor";
 
 const debug = Debug('HomeAutomationHub:HumiditySensorFactory');

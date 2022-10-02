@@ -8,7 +8,7 @@ import {
 	isAppleHomekitThermostat,
 } from '../config/thermostat';
 import { OnOffDeviceFactory } from '../onOffDevice/OnOffDeviceFactory';
-import { SensorFactory } from '../sensor/sensorFactory';
+import { SensorFactory } from '../sensor/SensorFactory';
 import { ThermostatService } from '../homekit/service/ThermostatService';
 import { AppleHomekitThermostat } from './AppleHomekitThermostat';
 import { IThermostat } from './IThermostat';
