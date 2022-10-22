@@ -1,5 +1,4 @@
 import * as hap from "hap-nodejs";
-import Debug from 'debug';
 import {
 	AppleHomekitHumiditySensor as AppleHomekitHumiditySensorConfig,
 	HumiditySensor as HumiditySensorConfig,
@@ -10,8 +9,9 @@ import { Bridge } from '../../homekit/Bridge';
 import { HumiditySensorService } from '../../homekit/service/HumiditySensorService';
 import { SensorFactory } from '../SensorFactory';
 import { AppleHomekitHumiditySensor } from "./AppleHomekitHumiditySensor";
+import { createDebug } from "../../debug/debug";
 
-const debug = Debug('HomeAutomationHub:HumiditySensorFactory');
+const debug = createDebug('HumiditySensorFactory');
 
 export class HumiditySensorFactory {
 

@@ -1,12 +1,12 @@
 import { EventEmitter } from 'events';
 import * as mqtt from 'async-mqtt';
-import Debug from 'debug';
 import { MqttSensor as MqttSensorConfig } from '../config/sensor/sensor';
 import { ISensor } from './ISensor';
 import { isMqttSensorDataFormatJSON } from '../config/sensor/mqttSensorDataFormat';
 import { DeviceType } from '../device/IDevice';
+import { createDebug } from '../debug/debug';
 
-const debug = Debug('HomeAutomationHub:MqttSensor');
+const debug = createDebug('MqttSensor');
 
 enum Events {
 	DATA = 'data',

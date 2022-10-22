@@ -1,5 +1,4 @@
 import * as hap from "hap-nodejs";
-import Debug from 'debug';
 import {
 	AppleHomekitWindowSensor as AppleHomekitWindowSensorConfig,
 	WindowSensor as WindowSensorConfig,
@@ -10,8 +9,9 @@ import { Bridge } from '../../homekit/Bridge';
 import { SensorFactory } from '../SensorFactory';
 import { WindowSensorService } from "../../homekit/service/WindowSensorService";
 import { AppleHomekitWindowSensor } from "./AppleHomekitWindowSensor";
+import { createDebug } from "../../debug/debug";
 
-const debug = Debug('HomeAutomationHub:WindowSensorFactory');
+const debug = createDebug('WindowSensorFactory');
 
 export class WindowSensorFactory {
 

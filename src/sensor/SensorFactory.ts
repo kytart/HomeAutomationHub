@@ -1,13 +1,13 @@
 import * as mqtt from 'async-mqtt';
-import Debug from 'debug';
 import { Persistance as PersistanceConfig } from '../config/sensor/persistance';
 import { isMqttSensor, Sensor as SensorConfig } from '../config/sensor/sensor';
+import { createDebug } from '../debug/debug';
 import { StorageFactory } from '../storage/StorageFactory';
 import { ISensor } from './ISensor';
 import { MqttSensor } from './MqttSensor';
 import { PersistentSensor } from './PersistentSensor';
 
-const debug = Debug('HomeAutomationHub:SensorFactory');
+const debug = createDebug('SensorFactory');
 
 export class SensorFactory {
 

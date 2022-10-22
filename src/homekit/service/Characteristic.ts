@@ -1,7 +1,7 @@
 import * as hap from 'hap-nodejs';
-import Debug from 'debug';
 import { EventEmitter } from 'events';
 import { removeWhiteSpaces } from '../../util/string';
+import { createDebug } from '../../debug/debug';
 
 enum Events {
 	Change = 'change',
@@ -12,7 +12,7 @@ export class Characteristic<T extends hap.CharacteristicValue> {
 	private currentValue: T;
 	private characteristic: hap.Characteristic;
 	private emitter: EventEmitter;
-	private debug: Debug.Debugger;
+	private debug: ReturnType<typeof createDebug>;
 
 	constructor(
 		private service: hap.Service,
@@ -24,7 +24,7 @@ export class Characteristic<T extends hap.CharacteristicValue> {
 		this.currentValue = defaultValue;
 		this.characteristic = this.service.getCharacteristic(characteristicConstructor);
 		this.emitter = new EventEmitter();
-		this.debug = Debug(this.getDebugNamespace());
+		this.debug = createDebug(this.getDebugNamespace());
 		this.init();
 	}
 
@@ -58,6 +58,6 @@ export class Characteristic<T extends hap.CharacteristicValue> {
 	private getDebugNamespace() {
 		const serviceName = removeWhiteSpaces(this.service.displayName);
 		const characteristicName = removeWhiteSpaces(this.characteristic.displayName);
-		return `HomeAutomationHub:Characteristic:${serviceName}:${characteristicName}`;
+		return `Characteristic:${serviceName}:${characteristicName}`;
 	}
 }

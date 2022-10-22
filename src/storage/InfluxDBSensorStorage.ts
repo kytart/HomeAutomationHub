@@ -1,8 +1,8 @@
 import * as Influx from 'influx';
-import Debug from 'debug';
+import { createDebug } from '../debug/debug';
 import { ISensorStorage, } from "./ISensorStorage";
 
-const debug = Debug('HomeAutomationHub:InfluxDBSensorStorage');
+const debug = createDebug('InfluxDBSensorStorage');
 
 export class InfluxDBSensorStorage<T> implements ISensorStorage<T> {
 

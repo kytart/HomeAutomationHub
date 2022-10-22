@@ -1,5 +1,4 @@
 import * as hap from "hap-nodejs";
-import Debug from 'debug';
 import { Accessory } from '../homekit/accessory/Accessory';
 import { Bridge } from "../homekit/Bridge";
 import {
@@ -13,8 +12,9 @@ import { ThermostatService } from '../homekit/service/ThermostatService';
 import { AppleHomekitThermostat } from './AppleHomekitThermostat';
 import { IThermostat } from './IThermostat';
 import { ISensor } from "../sensor/ISensor";
+import { createDebug } from "../debug/debug";
 
-const debug = Debug('HomeAutomationHub:ThermostatFactory');
+const debug = createDebug('ThermostatFactory');
 
 export class ThermostatFactory {
 

@@ -1,12 +1,12 @@
 import * as hap from 'hap-nodejs';
 import * as mqtt from 'async-mqtt';
 import { InfluxDB } from 'influx';
-import Debug from 'debug';
 import config from './config/config'
 import { Bridge } from './homekit/Bridge';
 import { DeviceFactory } from './device/DeviceFactory';
+import { createDebug } from './debug/debug';
 
-const debug = Debug('HomeAutomationHub:server');
+const debug = createDebug('server');
 
 hap.HAPStorage.setCustomStoragePath(config.homekit.persistPath);
 

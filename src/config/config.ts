@@ -1,10 +1,10 @@
 import { z } from 'zod';
-import Debug from 'debug';
 import appRoot from 'app-root-path';
 import { DeviceSchema } from './device';
 import { join } from 'path';
+import { createDebug } from '../debug/debug';
 
-const debug = Debug('HomeAutomationHub:config');
+const debug = createDebug('config');
 
 const configPath = join(appRoot.toString(), 'config/config.json');
 const config = require(configPath);
