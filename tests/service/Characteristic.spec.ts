@@ -1,7 +1,7 @@
 import should from 'should';
 import sinon from 'sinon';
 import * as hap from 'hap-nodejs';
-import { Characteristic } from '../../src/service/Characteristic';
+import { Characteristic } from '../../src/homekit/service/Characteristic';
 import { MockHAPCharacteristic } from './MockHAPCharacteristic';
 
 function createMockService(characteristic: any): hap.Service {
