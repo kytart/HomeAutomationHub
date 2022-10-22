@@ -24,7 +24,7 @@
     "hap-nodejs": "0.10.0",
     "influx": "^5.9.2",
     "qrcode-terminal": "^0.12.0",
-    "tplink-smarthome-api": "^3.3.0",
+    "tplink-smarthome-api": "^4.2.0",
     "zod": "3.19.1"
   },
   "devDependencies": {
