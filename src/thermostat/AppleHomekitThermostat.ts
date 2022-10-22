@@ -1,6 +1,6 @@
 import { IThermostatService, TargetHeatingCoolingState } from '../homekit/service/IThermostatService';
 import { ISensor } from '../sensor/ISensor';
-import { IOnOffDevice } from '../onOffDevice/IOnOffDevice';
+import { IOnOffDevice, OnOffDeviceEvent } from '../onOffDevice/IOnOffDevice';
 import { IThermostat } from './IThermostat';
 import { DeviceType } from '../device/IDevice';
 import { createDebug } from '../debug/debug';
@@ -60,6 +60,8 @@ export class AppleHomekitThermostat implements IThermostat {
 				this.refreshState();
 			});
 		}
+
+		this.heater.addListener(OnOffDeviceEvent.StatusChanged, () => this.refreshState());
 
 		this.service.onTargetTempChange(() => this.refreshState());
 		this.service.onStateChange(() => this.refreshState());
