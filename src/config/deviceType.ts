@@ -3,4 +3,5 @@ export enum DeviceType {
 	WindowSensor = 'window-sensor',
 	OnOffDevice = 'on-off',
 	Thermostat = 'thermostat',
+	Light = 'light',
 }

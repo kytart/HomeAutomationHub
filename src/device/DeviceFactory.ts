@@ -3,6 +3,7 @@ import * as mqtt from 'async-mqtt';
 import {
 	Device as DeviceConfig,
 	isHumiditySensorDevice,
+	isLightDevice,
 	isOnOffDevice,
 	isThermostatDevice,
 	isWindowSensorDevice,
@@ -15,6 +16,7 @@ import { HumiditySensorFactory } from '../sensor/humiditySensor/HumiditySensorFa
 import { WindowSensorFactory } from '../sensor/windowSensor/WindowSensorFactory';
 import { IDevice } from './IDevice';
 import { SensorFactory } from '../sensor/SensorFactory';
+import { LightFactory } from '../light/LightFactory';
 
 export interface DeviceFactoryProps {
 	influxdb: Influx.InfluxDB;
@@ -30,6 +32,7 @@ export class DeviceFactory {
 	private windowSensorFactory: WindowSensorFactory;
 	private onOffDeviceFactory: OnOffDeviceFactory;
 	private thermostatFactory: ThermostatFactory;
+	private lightFactory: LightFactory;
 
 	constructor({ influxdb, mqttClient, appleHomekitBridge }: DeviceFactoryProps) {
 		this.storageFactory = new StorageFactory(influxdb);
@@ -38,6 +41,7 @@ export class DeviceFactory {
 		this.windowSensorFactory = new WindowSensorFactory(appleHomekitBridge, this.sensorFactory);
 		this.onOffDeviceFactory = new OnOffDeviceFactory();
 		this.thermostatFactory = new ThermostatFactory(appleHomekitBridge, this.sensorFactory, this.onOffDeviceFactory);
+		this.lightFactory = new LightFactory(appleHomekitBridge);
 	}
 
 	public createDevice(config: DeviceConfig): IDevice {
@@ -49,6 +53,8 @@ export class DeviceFactory {
 			return this.onOffDeviceFactory.createOnOffDevice(config.config);
 		} else if (isThermostatDevice(config)) {
 			return this.thermostatFactory.createThermostat(config.config);
+		} else if (isLightDevice(config)) {
+			return this.lightFactory.createLight(config.config);
 		} else {
 			throw new Error(`invalid device config ${JSON.stringify(config)}`);
 		}

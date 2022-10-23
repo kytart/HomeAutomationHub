@@ -3,6 +3,7 @@ export enum DeviceType {
 	WindowSensor,
 	Sensor,
 	OnOffDevice,
+	Light,
 }
 
 export interface IDevice {
