@@ -18,7 +18,7 @@ export class TPLinkSmartPlug implements IOnOffDevice {
 	private lastPowerStatus: boolean = false;
 
 	constructor(private ip: string) {
-		this.client = new tplink.Client();
+		this.client = new tplink.Client({ logLevel: 'silent' });
 		this.init();
 	}
 
@@ -67,13 +67,17 @@ export class TPLinkSmartPlug implements IOnOffDevice {
 	}
 
 	private async checkPowerStatus() {
-		const device = await this.getDevice();
-		const powerOn = await device.getPowerState();
+		try {
+			const device = await this.getDevice();
+			const powerOn = await device.getPowerState();
 
-		if (powerOn !== this.lastPowerStatus) {
-			debug('power update, powerOn=' + powerOn);
-			this.lastPowerStatus = powerOn;
-			this.emitter.emit(OnOffDeviceEvent.StatusChanged, powerOn);
+			if (powerOn !== this.lastPowerStatus) {
+				debug('power update, powerOn=' + powerOn);
+				this.lastPowerStatus = powerOn;
+				this.emitter.emit(OnOffDeviceEvent.StatusChanged, powerOn);
+			}
+		} catch (error) {
+			debug('error: ' + error.message);
 		}
 	}
 }

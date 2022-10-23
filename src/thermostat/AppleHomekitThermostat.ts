@@ -72,11 +72,15 @@ export class AppleHomekitThermostat implements IThermostat {
 	private async refreshState() {
 		const state = this.service.getState();
 
-		if (state === TargetHeatingCoolingState.OFF || this.windowOpen) {
-			await this.turnOff();
-		} else {
-			// TODO do something different for states cooling/heating/auto
-			await this.syncHeaterWithTemperature();
+		try {
+			if (state === TargetHeatingCoolingState.OFF || this.windowOpen) {
+				await this.turnOff();
+			} else {
+				// TODO do something different for states cooling/heating/auto
+				await this.syncHeaterWithTemperature();
+			}
+		} catch (error) {
+			debug('error: ' + error.message);
 		}
 	}
 
